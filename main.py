@@ -1,0 +1,182 @@
+import nltk
+import ssl
+import certifi
+from urllib.request import urlopen
+from sklearn.feature_extraction.text import TfidfVectorizer
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+import requests
+from bs4 import BeautifulSoup
+import csv
+import re
+from datetime import datetime
+import pandas as pd
+# from selenium import webdriver
+import urllib3
+from nltk.tag import pos_tag
+import spacy
+from nltk.stem import PorterStemmer
+from collections import Counter
+
+nlp = spacy.load('en_core_web_sm')
+
+def get_drugs_for_disease(disease):
+    # Define the OpenFDA API endpoint for drug label information
+    endpoint = "https://api.fda.gov/drug/label.json"
+
+    # Parameters for querying the OpenFDA API
+    params = {
+        'search': f'indications_and_usage:"{disease}"',  # Search for drugs with specified indication
+        'limit': 10  # Limit the number of results to 10
+    }
+
+    # Make a GET request to the OpenFDA API
+    response = requests.get(endpoint, params=params)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        data = response.json()
+
+        # Extract drug names from the response
+        drugs = []
+        for result in data['results']:
+            if 'generic_name' in result['openfda']:
+                drugs.append(result['openfda']['generic_name'][0])
+
+        return drugs
+    else:
+        # If the request was not successful, print an error message
+        print("Error:", response.status_code)
+        return None
+
+def extract_keywords_from_url(url):
+    try:
+        # Fetch the webpage content
+        response1 = requests.get(url)
+        if response1.status_code == 200:
+            # Parse the HTML content
+            soup1 = BeautifulSoup(response1.text, 'html.parser')
+
+            # Extract text from HTML
+            text1 = soup1.get_text()
+
+            # Tokenize the text
+            tokens1 = nltk.word_tokenize(text1)
+
+            # Convert tokens to lowercase
+            tokens1 = [word.lower() for word in tokens1]
+
+            # Remove stopwords and non-alphabetic tokens
+            custom_stopwords = set(['people', 'said', 'side', 'may', 'help'])
+
+            # Combine custom stopwords with existing stopwords
+            stop_words1 = set(stopwords.words('english')) | custom_stopwords
+            tokens1 = [word for word in tokens1 if word.isalpha() and word not in stop_words1]
+
+            stemmer = PorterStemmer()
+            stemmed_tokens = [stemmer.stem(word) for word in tokens1]
+
+            # Convert tokens back to string
+            text1 = ' '.join(stemmed_tokens)
+
+            # Calculate TF-IDF scores
+            tfidf = TfidfVectorizer()
+            tfidf_matrix = tfidf.fit_transform([text1])
+
+            # Get feature names
+            feature_names = tfidf.get_feature_names_out()
+
+            # Sort feature names based on tf-idf scores
+            sorted_indices = tfidf_matrix.toarray().argsort()
+            keywords1 = [feature_names[index] for index in sorted_indices[0][-10:]]
+
+            return keywords1
+        else:
+            print(f"Failed to fetch URL: {url}")
+            return None
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
+
+def find_specific_words_and_write_to_csv(column_values):
+    for value in column_values:
+        url = value
+
+        # Send a GET request to the URL
+        response = requests.get(url, verify=False)
+        if response.status_code != 200:
+            continue
+
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, 'html.parser')
+        more_words_to_be_filtered = ('image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said', 'doctors', 'top', 'people', 'cells', 'baby',
+        'name', 'city')
+
+        text = soup.get_text()
+        text = re.sub(r'\s{2,}', ' ', text)
+        text = ' '.join(text.split())
+
+        words = word_tokenize(text)
+        # words_to_skipped = ['Bad request','JavaScript']
+        stop_words = set(stopwords.words('english'))
+
+        filtered_words1 = [word.lower() for word in words if word.isalpha() and word.lower() not in stop_words]
+
+        filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in more_words_to_be_filtered]
+
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        fdist = FreqDist(filtered_words)
+
+        # Print the 10 most common words
+        print("10 Most Common Words:")
+        spec_words = []
+        for word, frequency in fdist.most_common(10):
+            # print(word)
+            spec_words.append(word)
+
+        # Use spaCy for part-of-speech tagging
+        doc = nlp(text)
+        nouns = [token.text for token in doc if token.pos_ in ['NOUN', 'PROPN']]
+        diseases = ['cancer','heart','obesity','kidney','lung']
+        # Assign categories based on identified nouns
+        drugs=[]
+        categories = set()
+        for word1 in spec_words:
+            if word1 in diseases:
+                drugs = get_drugs_for_disease(word1)
+        for noun in nouns:
+            # if noun in spec_words:
+            #     # Get drugs related to the disease
+            #     drugs = get_drugs_for_disease(noun)
+            #     if drugs:
+            #         print(f"Drugs for {noun}: {drugs}")
+            if 'disease' in noun:
+                categories.add('Health')
+            elif 'technology' in noun:
+                categories.add('Technology')
+            else:
+                categories.add('Other')
+
+        csv_filename = 'scrapped_text26.csv'
+        keywords1 = extract_keywords_from_url(url)
+        with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            # Check if the file is empty
+            if csvfile.tell() == 0:
+                csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words','specified_kw_set2', 'Categories','Drugs_ifAny'])
+            csv_writer.writerow([timestamp, url, text, spec_words,keywords1, list(categories),list(drugs)])
+
+# CSV file path made for URL list
+csv_file = 'urlList.csv'
+column_name = 'URL'
+df = pd.read_csv(csv_file)
+column_values = df[column_name].tolist()
+
+# dr = webdriver.Chrome()
+ssl._create_default_https_context = ssl._create_unverified_context
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+find_specific_words_and_write_to_csv(column_values)
