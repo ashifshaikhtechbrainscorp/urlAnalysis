@@ -16,7 +16,7 @@ import pandas as pd
 import urllib3
 from nltk.tag import pos_tag
 import spacy
-from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
 from collections import Counter
 
 nlp = spacy.load('en_core_web_sm')
@@ -53,45 +53,47 @@ def get_drugs_for_disease(disease):
 def extract_keywords_from_url(url):
     try:
         # Fetch the webpage content
-        response1 = requests.get(url)
-        if response1.status_code == 200:
+        response = requests.get(url)
+        if response.status_code == 200:
             # Parse the HTML content
-            soup1 = BeautifulSoup(response1.text, 'html.parser')
+            soup = BeautifulSoup(response.text, 'html.parser')
 
             # Extract text from HTML
-            text1 = soup1.get_text()
+            text = soup.get_text()
 
             # Tokenize the text
-            tokens1 = nltk.word_tokenize(text1)
+            tokens = word_tokenize(text)
 
             # Convert tokens to lowercase
-            tokens1 = [word.lower() for word in tokens1]
+            tokens = [word.lower() for word in tokens]
 
             # Remove stopwords and non-alphabetic tokens
-            custom_stopwords = set(['people', 'said', 'side', 'may', 'help'])
+            custom_stopwords = set(['people', 'said','help','image', 'style', 'give', 'side', 'may','someone', 'told',
+            'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
+            'ratemds','doctorfind'])
+            stop_words = set(stopwords.words('english')) | custom_stopwords
+            tokens = [word for word in tokens if word.isalpha() and word not in stop_words]
 
-            # Combine custom stopwords with existing stopwords
-            stop_words1 = set(stopwords.words('english')) | custom_stopwords
-            tokens1 = [word for word in tokens1 if word.isalpha() and word not in stop_words1]
-
-            stemmer = PorterStemmer()
-            stemmed_tokens = [stemmer.stem(word) for word in tokens1]
+            # Lemmatize tokens
+            lemmatizer = WordNetLemmatizer()
+            tokens = [lemmatizer.lemmatize(word) for word in tokens]
 
             # Convert tokens back to string
-            text1 = ' '.join(stemmed_tokens)
+            text = ' '.join(tokens)
 
             # Calculate TF-IDF scores
             tfidf = TfidfVectorizer()
-            tfidf_matrix = tfidf.fit_transform([text1])
+            tfidf_matrix = tfidf.fit_transform([text])
 
             # Get feature names
             feature_names = tfidf.get_feature_names_out()
+            tfidf_scores = tfidf_matrix.toarray()[0]
 
             # Sort feature names based on tf-idf scores
-            sorted_indices = tfidf_matrix.toarray().argsort()
-            keywords1 = [feature_names[index] for index in sorted_indices[0][-10:]]
+            sorted_indices = (-tfidf_matrix[0]).toarray()[0].argsort()
+            keywords = [(feature_names[index], tfidf_scores[index]) for index in sorted_indices[:10]]
 
-            return keywords1
+            return keywords
         else:
             print(f"Failed to fetch URL: {url}")
             return None
@@ -110,8 +112,9 @@ def find_specific_words_and_write_to_csv(column_values):
 
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, 'html.parser')
-        more_words_to_be_filtered = ('image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said', 'doctors', 'top', 'people', 'cells', 'baby',
-        'name', 'city')
+        more_words_to_be_filtered = ('image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said',
+        'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
+                                     'ratemds','doctorfind','epoch')
 
         text = soup.get_text()
         text = re.sub(r'\s{2,}', ' ', text)
@@ -147,11 +150,6 @@ def find_specific_words_and_write_to_csv(column_values):
             if word1 in diseases:
                 drugs = get_drugs_for_disease(word1)
         for noun in nouns:
-            # if noun in spec_words:
-            #     # Get drugs related to the disease
-            #     drugs = get_drugs_for_disease(noun)
-            #     if drugs:
-            #         print(f"Drugs for {noun}: {drugs}")
             if 'disease' in noun:
                 categories.add('Health')
             elif 'technology' in noun:
@@ -159,7 +157,7 @@ def find_specific_words_and_write_to_csv(column_values):
             else:
                 categories.add('Other')
 
-        csv_filename = 'scrapped_text26.csv'
+        csv_filename = 'scrapped_text27.csv'
         keywords1 = extract_keywords_from_url(url)
         with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
