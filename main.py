@@ -1,6 +1,7 @@
 import nltk
 import ssl
 import certifi
+import common_words as cw
 from urllib.request import urlopen
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.tokenize import word_tokenize
@@ -102,7 +103,9 @@ def extract_keywords_from_url(url):
         return None
 
 def find_specific_words_and_write_to_csv(column_values):
+    count = 0
     for value in column_values:
+        count = count + 1
         url = value
 
         # Send a GET request to the URL
@@ -112,9 +115,7 @@ def find_specific_words_and_write_to_csv(column_values):
 
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, 'html.parser')
-        more_words_to_be_filtered = ('image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said',
-        'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
-                                     'ratemds','doctorfind','epoch')
+        more_words_to_be_filtered = cw.excludedWords()
 
         text = soup.get_text()
         text = re.sub(r'\s{2,}', ' ', text)
@@ -133,7 +134,7 @@ def find_specific_words_and_write_to_csv(column_values):
         fdist = FreqDist(filtered_words)
 
         # Print the 10 most common words
-        print("10 Most Common Words:")
+        print("10 Most Common Words ("+ count +"):")
         spec_words = []
         for word, frequency in fdist.most_common(10):
             # print(word)
