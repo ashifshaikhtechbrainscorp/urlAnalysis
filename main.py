@@ -134,7 +134,7 @@ def find_specific_words_and_write_to_csv(column_values):
         fdist = FreqDist(filtered_words)
 
         # Print the 10 most common words
-        print("10 Most Common Words ("+ count +"):")
+        print("10 Most Common Words (", count, "):")
         spec_words = []
         for word, frequency in fdist.most_common(10):
             # print(word)
