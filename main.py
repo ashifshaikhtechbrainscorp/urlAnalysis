@@ -70,8 +70,10 @@ def extract_keywords_from_url(url):
 
             # Remove stopwords and non-alphabetic tokens
             custom_stopwords = set(['people', 'said','help','image', 'style', 'give', 'side', 'may','someone', 'told',
-            'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
-            'ratemds','doctorfind'])
+            'doctors', 'top', 'people', 'cells','holidays','well','holiday','baby','name', 'city','also', 'us','read','go','j','ratemds',
+            'ratemds','doctorfind','image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said',
+        'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
+        'day','make','know','many','like','help','advertisement','ratemds','doctorfind','epoch'])
             stop_words = set(stopwords.words('english')) | custom_stopwords
             tokens = [word for word in tokens if word.isalpha() and word not in stop_words]
 
@@ -139,13 +141,12 @@ def find_specific_words_and_write_to_csv(column_values):
             print("10 Most Common Words (", count, "):")
             spec_words = []
             for word, frequency in fdist.most_common(10):
-            # print(word)
                 spec_words.append(word)
 
         # Use spaCy for part-of-speech tagging
             doc = nlp(text)
             nouns = [token.text for token in doc if token.pos_ in ['NOUN', 'PROPN']]
-            diseases = ['cancer','heart','obesity','kidney','lung']
+            diseases = ['cancer','heart','obesity','kidney','arteritis','lung','arthritis','tumor','diabetes','fibromyalgia','stress']
         # Assign categories based on identified nouns
             drugs=[]
             categories = set()
@@ -160,7 +161,7 @@ def find_specific_words_and_write_to_csv(column_values):
                 else:
                     categories.add('Other')
 
-            csv_filename = 'scrapped_text27.csv'
+            csv_filename = 'scrapped_text28.csv'
             keywords1 = extract_keywords_from_url(url)
             with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
                 csv_writer = csv.writer(csvfile)
@@ -173,7 +174,7 @@ def find_specific_words_and_write_to_csv(column_values):
         print(f"An error occurred: {str(e)}")
         return None
 # CSV file path made for URL list
-csv_file = 'urlList.csv'
+csv_file = 'urlAnalysis3.csv'
 column_name = 'URL'
 df = pd.read_csv(csv_file)
 column_values = df[column_name].tolist()
