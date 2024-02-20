@@ -1,1 +1,21 @@
+import nltk
+import ssl
+import certifi
+import common_words as cw
+from urllib.request import urlopen
+from sklearn.feature_extraction.text import TfidfVectorizer
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+import requests
+from bs4 import BeautifulSoup
+import csv
+import re
+from datetime import datetime
 import pandas as pd
+# from selenium import webdriver
+import urllib3
+from nltk.tag import pos_tag
+import spacy
+from nltk.stem import WordNetLemmatizer
+from collections import Counter

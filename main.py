@@ -70,8 +70,10 @@ def extract_keywords_from_url(url):
 
             # Remove stopwords and non-alphabetic tokens
             custom_stopwords = set(['people', 'said','help','image', 'style', 'give', 'side', 'may','someone', 'told',
-            'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
-            'ratemds','doctorfind'])
+            'doctors', 'top', 'people', 'cells','holidays','well','holiday','baby','name', 'city','also', 'us','read','go','j','ratemds',
+            'ratemds','doctorfind','image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said',
+        'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
+        'day','make','know','many','like','help','advertisement','ratemds','doctorfind','epoch'])
             stop_words = set(stopwords.words('english')) | custom_stopwords
             tokens = [word for word in tokens if word.isalpha() and word not in stop_words]
 
@@ -103,72 +105,76 @@ def extract_keywords_from_url(url):
         return None
 
 def find_specific_words_and_write_to_csv(column_values):
-    count = 82
-    for value in column_values:
-        count = count + 1
-        url = value
+
+    try:
+        count = 0
+        for value in column_values:
+            count = count + 1
+            url = value
 
         # Send a GET request to the URL
-        response = requests.get(url, verify=False)
-        if response.status_code != 200:
-            continue
+            response = requests.get(url, verify=False)
+            if response.status_code != 200:
+                continue
 
         # Parse the HTML content of the page
-        soup = BeautifulSoup(response.text, 'html.parser')
-        additional_stop_words = cw.excludedWords()
+            soup = BeautifulSoup(response.text, 'html.parser')
+            more_words_to_be_filtered = cw.excludedWords()
 
-        text = soup.get_text()
-        text = re.sub(r'\s{2,}', ' ', text)
-        text = ' '.join(text.split())
+            text = soup.get_text()
+            text = re.sub(r'\s{2,}', ' ', text)
+            text = ' '.join(text.split())
 
-        words = word_tokenize(text)
+            words = word_tokenize(text)
         # words_to_skipped = ['Bad request','JavaScript']
-        stop_words = set(stopwords.words('english'))
+            stop_words = set(stopwords.words('english'))
 
-        filtered_words1 = [word.lower() for word in words if word.isalpha() and word.lower() not in stop_words]
+            filtered_words1 = [word.lower() for word in words if word.isalpha() and word.lower() not in stop_words]
 
-        filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in additional_stop_words]
+            filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in more_words_to_be_filtered]
 
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        fdist = FreqDist(filtered_words)
+            fdist = FreqDist(filtered_words)
 
         # Print the 10 most common words
-        print("10 Most Common Words (", count, "):")
-        spec_words = []
-        for word, frequency in fdist.most_common(10):
-            # print(word)
-            spec_words.append(word)
+            print("10 Most Common Words (", count, "):")
+            spec_words = []
+            for word, frequency in fdist.most_common(10):
+                spec_words.append(word)
 
         # Use spaCy for part-of-speech tagging
-        doc = nlp(text)
-        nouns = [token.text for token in doc if token.pos_ in ['NOUN', 'PROPN']]
-        diseases = ['cancer','heart','obesity','kidney','lung']
+            doc = nlp(text)
+            nouns = [token.text for token in doc if token.pos_ in ['NOUN', 'PROPN']]
+            diseases = ['cancer','heart','obesity','kidney','arteritis','lung','arthritis','tumor','diabetes','fibromyalgia','stress']
         # Assign categories based on identified nouns
-        drugs=[]
-        categories = set()
-        for word1 in spec_words:
-            if word1 in diseases:
-                drugs = get_drugs_for_disease(word1)
-        for noun in nouns:
-            if 'disease' in noun:
-                categories.add('Health')
-            elif 'technology' in noun:
-                categories.add('Technology')
-            else:
-                categories.add('Other')
+            drugs=[]
+            categories = set()
+            for word1 in spec_words:
+                if word1 in diseases:
+                    drugs = get_drugs_for_disease(word1)
+            for noun in nouns:
+                if 'disease' in noun:
+                    categories.add('Health')
+                elif 'technology' in noun:
+                    categories.add('Technology')
+                else:
+                    categories.add('Other')
 
-        csv_filename = 'scrapped_text' + datetime.now().strftime("%Y%m%d") + '.csv'
-        keywords1 = extract_keywords_from_url(url)
-        with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
-            csv_writer = csv.writer(csvfile)
-            # Check if the file is empty
-            if csvfile.tell() == 0:
-                csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words','specified_kw_set2', 'Categories','Drugs_ifAny'])
-            csv_writer.writerow([timestamp, url, text, spec_words,keywords1, list(categories),list(drugs)])
+            csv_filename = 'scrapped_text28.csv'
+            keywords1 = extract_keywords_from_url(url)
+            with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
+                csv_writer = csv.writer(csvfile)
+                # Check if the file is empty
+                if csvfile.tell() == 0:
+                    csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words','specified_kw_set2', 'Categories','Drugs_ifAny'])
+                csv_writer.writerow([timestamp, url, text, spec_words,keywords1, list(categories),list(drugs)])
 
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
 # CSV file path made for URL list
-csv_file = 'urlList.csv'
+csv_file = 'urlAnalysis3.csv'
 column_name = 'URL'
 df = pd.read_csv(csv_file)
 column_values = df[column_name].tolist()
