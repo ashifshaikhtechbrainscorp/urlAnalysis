@@ -103,7 +103,7 @@ def extract_keywords_from_url(url):
         return None
 
 def find_specific_words_and_write_to_csv(column_values):
-    count = 0
+    count = 82
     for value in column_values:
         count = count + 1
         url = value
@@ -115,7 +115,7 @@ def find_specific_words_and_write_to_csv(column_values):
 
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, 'html.parser')
-        more_words_to_be_filtered = cw.excludedWords()
+        additional_stop_words = cw.excludedWords()
 
         text = soup.get_text()
         text = re.sub(r'\s{2,}', ' ', text)
@@ -127,7 +127,7 @@ def find_specific_words_and_write_to_csv(column_values):
 
         filtered_words1 = [word.lower() for word in words if word.isalpha() and word.lower() not in stop_words]
 
-        filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in more_words_to_be_filtered]
+        filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in additional_stop_words]
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -158,7 +158,7 @@ def find_specific_words_and_write_to_csv(column_values):
             else:
                 categories.add('Other')
 
-        csv_filename = 'scrapped_text27.csv'
+        csv_filename = 'scrapped_text' + datetime.now().strftime("%Y%m%d") + '.csv'
         keywords1 = extract_keywords_from_url(url)
         with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
