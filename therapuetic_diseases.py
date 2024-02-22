@@ -1,6 +1,8 @@
 import json
 
-def get_therapuetic_diseases(item_set):
+def get_therapuetic_diseases(data_set):
+    item_set = list(map(lambda x: x.lower(), data_set))
+
     # Open the JSON file
     with open('therapuetic.json') as f:
         data = json.load(f)
