@@ -1,0 +1,1110 @@
+[
+    {
+        "key": "allergists-immunologists",
+        "label": "Allergy / Immunology Content"
+    },
+    {
+        "key": "anesthesiologists",
+        "label": "Anesthesiology Content"
+    },
+    {
+        "key": "authenticated_mds",
+        "label": "Authenticated_MDs"
+    },
+    {
+        "key": "business-of-healthcare",
+        "label": "HCP Business Content"
+    },
+    {
+        "key": "cardiologists",
+        "label": "Cardiology Content"
+    },
+    {
+        "key": "cme",
+        "label": "CME Content"
+    },
+    {
+        "key": "colonand-rectal-surgeons",
+        "label": "Colon & Rectal Surgery Content"
+    },
+    {
+        "key": "congregate",
+        "label": "Congregate"
+    },
+    {
+        "key": "critical-care-medicine-specialists",
+        "label": "Critical Care Medicine Content"
+    },
+    {
+        "key": "dermatologists",
+        "label": "Dermatology Content"
+    },
+    {
+        "key": "emergency-medicine-specialists",
+        "label": "Emergency Medicine Content"
+    },
+    {
+        "key": "endocrinologists",
+        "label": "Endocrinology Content"
+    },
+    {
+        "key": "family-physicians",
+        "label": "Family Physician Content"
+    },
+    {
+        "key": "gastroenterologists",
+        "label": "Gastroenterology Content"
+    },
+    {
+        "key": "geriatric-medicine-specialists",
+        "label": "Geriatric Medicine Content"
+    },
+    {
+        "key": "hcp-general",
+        "label": "HCP Clinical Content"
+    },
+    {
+        "key": "hematologists",
+        "label": "Hematology Content"
+    },
+    {
+        "key": "hospice-and-palliative-medicine-specialists",
+        "label": "Hospice & Palliative Medicine Content"
+    },
+    {
+        "key": "infectious-disease-specialists",
+        "label": "Infectious Disease Content"
+    },
+    {
+        "key": "internists",
+        "label": "Internal Medicine Content"
+    },
+    {
+        "key": "medical-geneticists",
+        "label": "Medical Geneticist Content"
+    },
+    {
+        "key": "medical-students",
+        "label": "Medical Student Content"
+    },
+    {
+        "key": "nephrologists",
+        "label": "Nephrology Content"
+    },
+    {
+        "key": "neurologists",
+        "label": "Neurology Content"
+    },
+    {
+        "key": "nurses",
+        "label": "Nurse Focused Content"
+    },
+    {
+        "key": "obstetricians-and-gynecologists",
+        "label": "Obstetrician & Gynecology Content"
+    },
+    {
+        "key": "oncologists",
+        "label": "Oncology Content"
+    },
+    {
+        "key": "ophthalmologists",
+        "label": "Ophthalmology Content"
+    },
+    {
+        "key": "osteopaths",
+        "label": "Osteopath Content"
+    },
+    {
+        "key": "otolaryngologists",
+        "label": "Otolaryngology Content"
+    },
+    {
+        "key": "pathologists",
+        "label": "Pathology Content"
+    },
+    {
+        "key": "pediatricians",
+        "label": "Pediatric Content"
+    },
+    {
+        "key": "pharma-marketing",
+        "label": "Pharma Marketing Content"
+    },
+    {
+        "key": "pharmacists",
+        "label": "Pharmacist Focused Content"
+    },
+    {
+        "key": "physiatrists",
+        "label": "Physiatrist Content"
+    },
+    {
+        "key": "plastic-surgeons",
+        "label": "Plastic Surgeon Focused Content"
+    },
+    {
+        "key": "podiatrists",
+        "label": "Podiatry Content"
+    },
+    {
+        "key": "psychiatrists",
+        "label": "Psychiatry Content"
+    },
+    {
+        "key": "pulmonologists",
+        "label": "Pulmonology Content"
+    },
+    {
+        "key": "radiologists",
+        "label": "Radiology Content"
+    },
+    {
+        "key": "rheumatologists",
+        "label": "Rheumatology Content"
+    },
+    {
+        "key": "sleep-medicine-specialists",
+        "label": "Sleep Medicine Content"
+    },
+    {
+        "key": "sports-medicine-specialists",
+        "label": "Sports Medicine Content"
+    },
+    {
+        "key": "urologists",
+        "label": "Urology Content"
+    },
+    {
+        "key": "everyone",
+        "label": "Everyone"
+    },
+    {
+        "key": "female",
+        "label": "Women"
+    },
+    {
+        "key": "male",
+        "label": "Men"
+    },
+    {
+        "key": "acne",
+        "label": "ACNE"
+    },
+    {
+        "key": "add",
+        "label": "ADD"
+    },
+    {
+        "key": "add-adhd",
+        "label": "ADD/ADHD"
+    },
+    {
+        "key": "addiction",
+        "label": "Addiction"
+    },
+    {
+        "key": "addiction-treatment",
+        "label": "Addiction Treatment"
+    },
+    {
+        "key": "adhd",
+        "label": "ADHD"
+    },
+    {
+        "key": "afib",
+        "label": "Afib"
+    },
+    {
+        "key": "aids",
+        "label": "Aids"
+    },
+    {
+        "key": "alcohol",
+        "label": "Alcohol"
+    },
+    {
+        "key": "allergies",
+        "label": "Allergies"
+    },
+    {
+        "key": "als",
+        "label": "ALS"
+    },
+    {
+        "key": "alternative-health",
+        "label": "Alternative Health"
+    },
+    {
+        "key": "alternative-medicine",
+        "label": "Alternative Medicine"
+    },
+    {
+        "key": "alzheimers",
+        "label": "Alzheimer's"
+    },
+    {
+        "key": "anemia",
+        "label": "Anemia"
+    },
+    {
+        "key": "anesthesiology",
+        "label": "Anesthesiology"
+    },
+    {
+        "key": "angina",
+        "label": "Angina"
+    },
+    {
+        "key": "animal-allergies",
+        "label": "Animal Allergies"
+    },
+    {
+        "key": "anxiety",
+        "label": "Anxiety"
+    },
+    {
+        "key": "appendicitis",
+        "label": "Appendicitis"
+    },
+    {
+        "key": "arthritis",
+        "label": "Arthritis"
+    },
+    {
+        "key": "asthma",
+        "label": "Asthma"
+    },
+    {
+        "key": "auditory",
+        "label": "Auditory"
+    },
+    {
+        "key": "autism",
+        "label": "Autism"
+    },
+    {
+        "key": "autoimmune-disease",
+        "label": "Autoimmune Disease"
+    },
+    {
+        "key": "backpain",
+        "label": "Back Pain"
+    },
+    {
+        "key": "bariatric",
+        "label": "Bariatric"
+    },
+    {
+        "key": "beauty",
+        "label": "Beauty"
+    },
+    {
+        "key": "bipolar",
+        "label": "Bipolar"
+    },
+    {
+        "key": "bipolar-disorder",
+        "label": "Bipolar Disorder"
+    },
+    {
+        "key": "birth-control",
+        "label": "Birth Control"
+    },
+    {
+        "key": "blood",
+        "label": "Blood"
+    },
+    {
+        "key": "blood-cancer",
+        "label": "Blood Cancer"
+    },
+    {
+        "key": "blood-pressure",
+        "label": "Blood Pressure"
+    },
+    {
+        "key": "bones-and-joints",
+        "label": "Bones & Joints"
+    },
+    {
+        "key": "brain-cancer",
+        "label": "Brain Cancer"
+    },
+    {
+        "key": "breast-augumentation",
+        "label": "Breast Augumentation"
+    },
+    {
+        "key": "breast-cancer",
+        "label": "Breast Cancer"
+    },
+    {
+        "key": "cancer",
+        "label": "Cancer"
+    },
+    {
+        "key": "cancer-general",
+        "label": "Cancer/General"
+    },
+    {
+        "key": "cardiology",
+        "label": "Cardiology"
+    },
+    {
+        "key": "cardiovascular",
+        "label": "Cardiovascular"
+    },
+    {
+        "key": "caregiver",
+        "label": "Caregiver"
+    },
+    {
+        "key": "carpal-tunnel",
+        "label": "Carpal Tunnel"
+    },
+    {
+        "key": "cataracts",
+        "label": "Cataracts"
+    },
+    {
+        "key": "cavities",
+        "label": "Cavities"
+    },
+    {
+        "key": "cbd",
+        "label": "CBD"
+    },
+    {
+        "key": "cervical-cancer",
+        "label": "Cervical Cancer"
+    },
+    {
+        "key": "chickenpox",
+        "label": "ChickenPox"
+    },
+    {
+        "key": "child-birth",
+        "label": "Child Birth"
+    },
+    {
+        "key": "child-development",
+        "label": "Child Development"
+    },
+    {
+        "key": "childrens-health",
+        "label": "Children's Health"
+    },
+    {
+        "key": "chiropratic",
+        "label": "Chiropratic"
+    },
+    {
+        "key": "cholesterol",
+        "label": "Cholesterol"
+    },
+    {
+        "key": "chronic-heart-failure(chf)",
+        "label": "Chronic Heart Failure(CHF)"
+    },
+    {
+        "key": "chronic-pain",
+        "label": "Chronic Pain"
+    },
+    {
+        "key": "clothing-related",
+        "label": "Clothing related"
+    },
+    {
+        "key": "cold",
+        "label": "Cold"
+    },
+    {
+        "key": "cold-and-flu",
+        "label": "Cold & Flu"
+    },
+    {
+        "key": "colon-cancer",
+        "label": "Colon Cancer"
+    },
+    {
+        "key": "congestive-heart-failure",
+        "label": "Congestive Heart Failure"
+    },
+    {
+        "key": "constipation",
+        "label": "Constipation"
+    },
+    {
+        "key": "consumer-general",
+        "label": "Consumer General"
+    },
+    {
+        "key": "consumer-products",
+        "label": "Consumer Products"
+    },
+    {
+        "key": "cooking-receipes-diet",
+        "label": "Cooking/Receipes/Diet"
+    },
+    {
+        "key": "copd",
+        "label": "COPD"
+    },
+    {
+        "key": "coronary-heart-disease",
+        "label": "Coronary Heart Disease"
+    },
+    {
+        "key": "cosmetic-related",
+        "label": "Cosmetic Related"
+    },
+    {
+        "key": "crohns-disease",
+        "label": "Crohn's Disease"
+    },
+    {
+        "key": "cystic-fibrosis",
+        "label": "Cystic Fibrosis"
+    },
+    {
+        "key": "deep-vein-thrombosis",
+        "label": "Deep Vein Thrombosis"
+    },
+    {
+        "key": "demo:parents",
+        "label": "Demo:Parents"
+    },
+    {
+        "key": "demo:seniors",
+        "label": "Demo:Seniors"
+    },
+    {
+        "key": "demo:teen",
+        "label": "Demo:Teen"
+    },
+    {
+        "key": "dental-health",
+        "label": "Dental Health"
+    },
+    {
+        "key": "depression",
+        "label": "Depression"
+    },
+    {
+        "key": "dermatitis",
+        "label": "Dermatitis"
+    },
+    {
+        "key": "dermatology",
+        "label": "Dermatology"
+    },
+    {
+        "key": "diabetes",
+        "label": "Diabetes"
+    },
+    {
+        "key": "dieting",
+        "label": "Dieting"
+    },
+    {
+        "key": "digestion",
+        "label": "Digestion"
+    },
+    {
+        "key": "drugs-and-herbs",
+        "label": "Drugs And Herbs"
+    },
+    {
+        "key": "eating-disorder",
+        "label": "Eating Disorder"
+    },
+    {
+        "key": "ecigarettes-and-vaping",
+        "label": "Ecigarettes & Vaping"
+    },
+    {
+        "key": "eczema",
+        "label": "Eczema"
+    },
+    {
+        "key": "endometriosis",
+        "label": "Endometriosis"
+    },
+    {
+        "key": "epilepsy",
+        "label": "Epilepsy"
+    },
+    {
+        "key": "equipment",
+        "label": "Equipment"
+    },
+    {
+        "key": "erectile-dysfunction",
+        "label": "Erectile Dysfunction"
+    },
+    {
+        "key": "eye",
+        "label": "Eye"
+    },
+    {
+        "key": "eyesight-vision",
+        "label": "Eyesight/Vision"
+    },
+    {
+        "key": "family-practice",
+        "label": "Family Practice"
+    },
+    {
+        "key": "fertility",
+        "label": "Fertility"
+    },
+    {
+        "key": "fibromyalgia",
+        "label": "Fibromyalgia"
+    },
+    {
+        "key": "first-trimester",
+        "label": "First Trimester"
+    },
+    {
+        "key": "fitness",
+        "label": "Fitness"
+    },
+    {
+        "key": "fitness-and-exercise",
+        "label": "Fitness and Exercise"
+    },
+    {
+        "key": "flu",
+        "label": "Flu"
+    },
+    {
+        "key": "food-allergies",
+        "label": "Food Allergies"
+    },
+    {
+        "key": "food-and-recipes",
+        "label": "Food And Recipes"
+    },
+    {
+        "key": "foot-health",
+        "label": "Foot Health"
+    },
+    {
+        "key": "gallstones",
+        "label": "Gallstones"
+    },
+    {
+        "key": "gastro",
+        "label": "Gastro"
+    },
+    {
+        "key": "general-health",
+        "label": "General Health"
+    },
+    {
+        "key": "genital-herpes",
+        "label": "Genital Herpes"
+    },
+    {
+        "key": "gerd",
+        "label": "GERD"
+    },
+    {
+        "key": "glaucoma",
+        "label": "Glaucoma"
+    },
+    {
+        "key": "gout",
+        "label": "Gout"
+    },
+    {
+        "key": "hair-and-scalp",
+        "label": "Hair and Scalp"
+    },
+    {
+        "key": "hair-loss",
+        "label": "Hair Loss"
+    },
+    {
+        "key": "health-insurance",
+        "label": "Health Insurance"
+    },
+    {
+        "key": "hearing-and-ear",
+        "label": "Hearing & Ear"
+    },
+    {
+        "key": "hearing-loss",
+        "label": "Hearing Loss"
+    },
+    {
+        "key": "heart",
+        "label": "Heart"
+    },
+    {
+        "key": "heart-attack",
+        "label": "Heart Attack"
+    },
+    {
+        "key": "heart-burn",
+        "label": "Heart burn"
+    },
+    {
+        "key": "hemophilia",
+        "label": "Hemophilia"
+    },
+    {
+        "key": "hemorrhoids",
+        "label": "Hemorrhoids"
+    },
+    {
+        "key": "hepatitis",
+        "label": "Hepatitis"
+    },
+    {
+        "key": "hepatitis-a",
+        "label": "Hepatitis A"
+    },
+    {
+        "key": "hepatitis-b",
+        "label": "Hepatitis B"
+    },
+    {
+        "key": "hepatitis-c",
+        "label": "Hepatitis C"
+    },
+    {
+        "key": "hernia",
+        "label": "Hernia"
+    },
+    {
+        "key": "herpes",
+        "label": "Herpes"
+    },
+    {
+        "key": "hiv",
+        "label": "HIV"
+    },
+    {
+        "key": "hiv-aids",
+        "label": "HIV/AIDS"
+    },
+    {
+        "key": "hormonal-disorders",
+        "label": "Hormonal Disorders"
+    },
+    {
+        "key": "hpv-genital-warts",
+        "label": "HPV Genital Warts"
+    },
+    {
+        "key": "hypertension",
+        "label": "Hypertension"
+    },
+    {
+        "key": "hyperthyroid",
+        "label": "Hyperthyroid"
+    },
+    {
+        "key": "hypotension",
+        "label": "Hypotension"
+    },
+    {
+        "key": "hypothyroid",
+        "label": "Hypothyroid"
+    },
+    {
+        "key": "ibd",
+        "label": "IBD"
+    },
+    {
+        "key": "ibs",
+        "label": "IBS"
+    },
+    {
+        "key": "ibs-c",
+        "label": "IBS-C"
+    },
+    {
+        "key": "ibs-d",
+        "label": "IBS-D"
+    },
+    {
+        "key": "immunization",
+        "label": "Immunization"
+    },
+    {
+        "key": "incontinence",
+        "label": "Incontinence"
+    },
+    {
+        "key": "infant-care",
+        "label": "Infant Care"
+    },
+    {
+        "key": "infant-health",
+        "label": "Infant Health"
+    },
+    {
+        "key": "infectious-disease",
+        "label": "Infectious Disease"
+    },
+    {
+        "key": "infertility",
+        "label": "Infertility"
+    },
+    {
+        "key": "injury",
+        "label": "Injury"
+    },
+    {
+        "key": "insomnia",
+        "label": "Insomnia"
+    },
+    {
+        "key": "irritable-bowel",
+        "label": "Irritable Bowel"
+    },
+    {
+        "key": "joint-pain",
+        "label": "Joint Pain"
+    },
+    {
+        "key": "kidney",
+        "label": "Kidney"
+    },
+    {
+        "key": "kidney-cancer",
+        "label": "Kidney Cancer"
+    },
+    {
+        "key": "leukemia",
+        "label": "Leukemia"
+    },
+    {
+        "key": "lgbt-health",
+        "label": "LGBT Health"
+    },
+    {
+        "key": "lifestyle",
+        "label": "Lifestyle"
+    },
+    {
+        "key": "liver",
+        "label": "Liver"
+    },
+    {
+        "key": "liver-cancer",
+        "label": "Liver Cancer"
+    },
+    {
+        "key": "low-testosterone-hypogonadism",
+        "label": "Low Testosterone/Hypogonadism"
+    },
+    {
+        "key": "lung-cancer",
+        "label": "Lung Cancer"
+    },
+    {
+        "key": "lungs",
+        "label": "Lungs"
+    },
+    {
+        "key": "lupus",
+        "label": "Lupus"
+    },
+    {
+        "key": "lymphoma",
+        "label": "Lymphoma"
+    },
+    {
+        "key": "macular-degeneration",
+        "label": "Macular Degeneration"
+    },
+    {
+        "key": "marajuana",
+        "label": "marijuana"
+    },
+    {
+        "key": "medical-devices",
+        "label": "Medical Devices"
+    },
+    {
+        "key": "medications",
+        "label": "Medications"
+    },
+    {
+        "key": "memory-and-concentration",
+        "label": "Memory and Concentration"
+    },
+    {
+        "key": "meningitis-b",
+        "label": "Meningitis B"
+    },
+    {
+        "key": "menopause",
+        "label": "Menopause"
+    },
+    {
+        "key": "mens-health",
+        "label": "Mens Health"
+    },
+    {
+        "key": "mental-health",
+        "label": "Mental Health"
+    },
+    {
+        "key": "metabolic-syndrome",
+        "label": "Metabolic Syndrome"
+    },
+    {
+        "key": "metastatic-breast-cancer",
+        "label": "Metastatic Breast Cancer"
+    },
+    {
+        "key": "migraine",
+        "label": "Migraine / Headache"
+    },
+    {
+        "key": "multiple-sclerosis",
+        "label": "Multiple Sclerosis"
+    },
+    {
+        "key": "neck",
+        "label": "Neck"
+    },
+    {
+        "key": "neurology",
+        "label": "Neurology"
+    },
+    {
+        "key": "nutrition",
+        "label": "Nutrition"
+    },
+    {
+        "key": "obesity",
+        "label": "Obesity"
+    },
+    {
+        "key": "obgyn",
+        "label": "OBGYN"
+    },
+    {
+        "key": "ocd",
+        "label": "OCD"
+    },
+    {
+        "key": "opioid-dependency",
+        "label": "Opioid Dependency"
+    },
+    {
+        "key": "oral-health",
+        "label": "Oral Health"
+    },
+    {
+        "key": "osteoarthritis",
+        "label": "Osteoarthritis"
+    },
+    {
+        "key": "osteoporosis",
+        "label": "Osteoporosis"
+    },
+    {
+        "key": "ovarian-cancer",
+        "label": "Ovarian Cancer"
+    },
+    {
+        "key": "overactive-bladder(oab)",
+        "label": "Overactive Bladder(OAB)"
+    },
+    {
+        "key": "pain",
+        "label": "Pain"
+    },
+    {
+        "key": "parkinsons",
+        "label": "Parkinsons"
+    },
+    {
+        "key": "pediatric-health",
+        "label": "Pediatric Health"
+    },
+    {
+        "key": "pediatrics",
+        "label": "Pediatrics"
+    },
+    {
+        "key": "pet-health",
+        "label": "Pet Health"
+    },
+    {
+        "key": "pinkeye",
+        "label": "PinkEye"
+    },
+    {
+        "key": "pneumonia",
+        "label": "Pneumonia"
+    },
+    {
+        "key": "pregnancy-childbirth",
+        "label": "Pregnancy/ChildBirth"
+    },
+    {
+        "key": "prenatal",
+        "label": "Prenatal"
+    },
+    {
+        "key": "prevention-aging",
+        "label": "Prevention/Aging"
+    },
+    {
+        "key": "prostate-cancer",
+        "label": "Prostate Cancer"
+    },
+    {
+        "key": "psoriasis",
+        "label": "Psoriasis"
+    },
+    {
+        "key": "respiratory",
+        "label": "Respiratory"
+    },
+    {
+        "key": "restless-leg-syndrome",
+        "label": "Restless Leg Syndrome"
+    },
+    {
+        "key": "rheumatoid-arthritis",
+        "label": "Rheumatoid Arthritis"
+    },
+    {
+        "key": "root-canal",
+        "label": "Root Canal"
+    },
+    {
+        "key": "schizophrenia",
+        "label": "Schizophrenia"
+    },
+    {
+        "key": "seasonal-allergies",
+        "label": "Seasonal Allergies"
+    },
+    {
+        "key": "second-trimester",
+        "label": "Second Trimester"
+    },
+    {
+        "key": "sexual-health",
+        "label": "Sexual Health"
+    },
+    {
+        "key": "shingles",
+        "label": "Shingles"
+    },
+    {
+        "key": "skin-allergy",
+        "label": "Skin Allergy"
+    },
+    {
+        "key": "skin-and-nails",
+        "label": "Skin & Nails"
+    },
+    {
+        "key": "skin-cancer",
+        "label": "Skin Cancer"
+    },
+    {
+        "key": "sleep",
+        "label": "Sleep"
+    },
+    {
+        "key": "sleep-apnea",
+        "label": "Sleep Apnea"
+    },
+    {
+        "key": "smoking-cessation",
+        "label": "Smoking Cessation"
+    },
+    {
+        "key": "std",
+        "label": "STD"
+    },
+    {
+        "key": "strep-throat",
+        "label": "Strep Throat"
+    },
+    {
+        "key": "stress-anxiety-panic",
+        "label": "Stress/Anxiety/Panic"
+    },
+    {
+        "key": "stroke",
+        "label": "Stroke"
+    },
+    {
+        "key": "substance-abuse-and-addiction",
+        "label": "Substance Abuse & Addiction"
+    },
+    {
+        "key": "supplements",
+        "label": "Supplements"
+    },
+    {
+        "key": "surgery",
+        "label": "Surgery"
+    },
+    {
+        "key": "teen-health",
+        "label": "Teen Health"
+    },
+    {
+        "key": "third-trimester",
+        "label": "Third Trimester"
+    },
+    {
+        "key": "thyroid",
+        "label": "Thyroid"
+    },
+    {
+        "key": "tobacco-related",
+        "label": "Tobacco Related"
+    },
+    {
+        "key": "toddler-health",
+        "label": "Toddler Health"
+    },
+    {
+        "key": "toddlers",
+        "label": "Toddlers"
+    },
+    {
+        "key": "type-i-diabetes",
+        "label": "Type I Diabetes"
+    },
+    {
+        "key": "type-ii-diabetes",
+        "label": "Type II Diabetes"
+    },
+    {
+        "key": "ulcerativecolitis",
+        "label": "Ulcerative Colitis"
+    },
+    {
+        "key": "urinary-tract-infection",
+        "label": "Urinary Tract Infection"
+    },
+    {
+        "key": "urology",
+        "label": "Urology"
+    },
+    {
+        "key": "weight-loss-and-obesity",
+        "label": "WeightLoss & Obesity"
+    },
+    {
+        "key": "womens-health",
+        "label": "Women's Health"
+    }
+]
