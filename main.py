@@ -161,14 +161,14 @@ def find_specific_words_and_write_to_csv(column_values):
                 else:
                     categories.add('Other')
 
-            csv_filename = 'scrapped_text28.csv'
+            csv_filename = 'scrapped_text' + datetime.now().strftime("%Y%m%d") + '.csv'
             keywords1 = extract_keywords_from_url(url)
             with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
                 csv_writer = csv.writer(csvfile)
                 # Check if the file is empty
                 if csvfile.tell() == 0:
-                    csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words','specified_kw_set2', 'Categories','Drugs_ifAny'])
-                csv_writer.writerow([timestamp, url, text, spec_words,keywords1, list(categories),list(drugs)])
+                    csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny'])
+                csv_writer.writerow([timestamp, url, text, spec_words, keywords1, list(categories), list(drugs)])
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
