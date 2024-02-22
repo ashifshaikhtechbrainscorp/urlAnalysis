@@ -1,5 +1,6 @@
 import nltk
 import ssl
+import joblib
 import certifi
 import common_words as cw
 from urllib.request import urlopen
@@ -152,10 +153,12 @@ def find_specific_words_and_write_to_csv(column_values):
             diseases = ['cancer','heart','obesity','kidney','arteritis','lung','arthritis','tumor','diabetes','fibromyalgia','stress']
         # Assign categories based on identified nouns
             drugs=[]
+
             categories = set()
             for word1 in spec_words:
                 if word1 in diseases:
                     drugs = get_drugs_for_disease(word1)
+
             for noun in nouns:
                 if 'disease' in noun:
                     categories.add('Health')
@@ -176,6 +179,8 @@ def find_specific_words_and_write_to_csv(column_values):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None
+
+
 # CSV file path made for URL list
 csv_file = 'urlAnalysis3.csv'
 column_name = 'URL'
