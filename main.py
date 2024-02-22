@@ -133,6 +133,9 @@ def find_specific_words_and_write_to_csv(column_values):
 
             filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in more_words_to_be_filtered]
 
+            lemmatizer = WordNetLemmatizer()
+            filtered_words = [lemmatizer.lemmatize(word) for word in filtered_words]
+
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             fdist = FreqDist(filtered_words)
