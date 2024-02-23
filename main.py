@@ -1,6 +1,7 @@
 import nltk
 import ssl
 import joblib
+import json
 import certifi
 import common_words as cw
 from urllib.request import urlopen
@@ -20,6 +21,7 @@ from nltk.tag import pos_tag
 import spacy
 from nltk.stem import WordNetLemmatizer
 from collections import Counter
+import Drugs
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -159,6 +161,11 @@ def find_specific_words_and_write_to_csv(column_values):
                 if word1 in diseases:
                     drugs = get_drugs_for_disease(word1)
 
+            drug_list = drugs
+            result_dict = Drugs.predict_drug_names(drug_list)
+
+            json_result = json.dumps(result_dict)
+
             for noun in nouns:
                 if 'disease' in noun:
                     categories.add('Health')
@@ -173,8 +180,8 @@ def find_specific_words_and_write_to_csv(column_values):
                 csv_writer = csv.writer(csvfile)
                 # Check if the file is empty
                 if csvfile.tell() == 0:
-                    csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny'])
-                csv_writer.writerow([timestamp, url, text, spec_words, keywords1, list(categories), list(drugs)])
+                    csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny','Drugs_cN'])
+                csv_writer.writerow([timestamp, url, text, spec_words, keywords1, list(categories), list(drugs),json_result])
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")

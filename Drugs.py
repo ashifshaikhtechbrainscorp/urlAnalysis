@@ -1,42 +1,43 @@
-import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.pipeline import Pipeline
 import joblib
+import pandas as pd
+import json
+import csv
 
-# Load the CSV file
 csv_file_path = "DrugsCommon.csv"
 data = pd.read_csv(csv_file_path)
 
-# Extract features (Drug Name) and labels (Drug Class)
-X = data['Drug Name']
-y = data['Drug Class']
+def predict_drug_names(drug_list):
+    # Define data and model paths
+    model_output_path = "trained_model.pkl"  # Update with the correct path
+    # data = pd.DataFrame()  # Update with your data
 
-# Define a pipeline with CountVectorizer and Multinomial Naive Bayes classifier
-pipeline = Pipeline([
-    ('vect', CountVectorizer()),  # Convert text to a matrix of token counts
-    ('clf', MultinomialNB()),     # Multinomial Naive Bayes classifier
-])
+    def predict_drug_names_for_class(drug_class):
+        # Load the trained model
+        model = joblib.load(model_output_path)
 
-# Train the model
-pipeline.fit(X, y)
+        # Predict drug names based on the input drug class
+        drug_names = []
+        for class_name in drug_class.split(','):
+            drug_names.extend(
+                data[data['Drug Class'].str.contains(class_name.strip(), case=False)]['Drug Name'].tolist())
+        return drug_names
 
-# Save the trained model
-model_output_path = "trained_model.pkl"
-joblib.dump(pipeline, model_output_path)
-print(f"Model saved to {model_output_path}")
+    # Prepare a dictionary to store results
+    result_dict = {}
 
-# Function to predict drug names based on drug class
-def predict_drug_names(drug_class):
-    # Load the trained model
-    model = joblib.load(model_output_path)
+    # Iterate through the drug list
+    for drug in drug_list:
+        drug_list1 = []
+        # Split the items in the input list and save them into the output list
+        drug_list1.extend(drug.split(','))
 
-    # Predict drug names based on the input drug class
-    drug_names = data[data['Drug Class'] == drug_class]['Drug Name'].tolist()
-    return drug_names
+        drug_list2 = []
+        for item in drug_list1:
+            drug_list2.extend(item.split('AND'))
 
-# Example usage:
-user_input_class = input("Enter a drug class: ").title()
-predicted_drug_names = predict_drug_names(user_input_class)
-print(f"Drug names in the class '{user_input_class}':")
-print(predicted_drug_names)
+        for drg in drug_list2:
+            drg_title = drg.title()
+            drgNames = predict_drug_names_for_class(drg_title)
+            result_dict[drg_title] = ', '.join(drgNames)
+
+    return result_dict
