@@ -34,7 +34,7 @@ def get_therapuetic_diseases(data_set):
         elif item_label.replace("'", '') in item_set:
             therapuetic_data.append(item)
         else:
-            thera_diesease = item_label.replace('&', '').replace('and', '').replace(' / ', '/').replace('  ', ' ')
+            thera_diesease = item_label.replace('&', '').replace('and', '').replace(' / ', '/').replace('  ', ' ').replace('(', '/').replace(')', '')
             if thera_diesease in item_set:
                 therapuetic_data.append(item)
             elif len(thera_diesease.split(' ')) == 1 and len(thera_diesease.split('/')) > 1:
