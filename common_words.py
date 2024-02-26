@@ -60,3 +60,75 @@ def excludedWords():
 # # Print the top relevant words
 # for word, score in tf.most_common(10):
 #     print(f'{score:.2f} {word} {len(word)}')
+
+
+
+from collections import Counter
+import math
+import requests
+import spacy
+from bs4 import BeautifulSoup
+from nltk import word_tokenize
+from nltk.corpus import stopwords
+from nltk.collocations import BigramCollocationFinder
+from nltk.metrics import BigramAssocMeasures
+
+def extract_collocations(text):
+    words = word_tokenize(text)
+    bigram_finder = BigramCollocationFinder.from_words(words)
+    bigrams = bigram_finder.nbest(BigramAssocMeasures.likelihood_ratio, 10)  # Get top 10 collocations
+    return bigrams
+
+nlp = spacy.load("en_core_web_sm")
+
+def extract_keywords_from_url(url):
+    try:
+        # Fetch the webpage content
+        response = requests.get(url)
+        if response.status_code == 200:
+            # Parse the HTML content
+            soup = BeautifulSoup(response.text, 'html.parser')
+
+            # Extract text from HTML
+            text = soup.get_text()
+
+
+            # Tokenize the text
+            tokens = word_tokenize(text)
+
+            # Convert tokens to lowercase
+            tokens = [word.lower() for word in tokens]
+
+            # Remove stopwords and non-alphabetic tokens
+            custom_stopwords = set(['people', 'said', 'help', 'image', 'style', 'give', 'side', 'may', 'someone',
+                                    'told', 'doctors', 'top', 'people', 'cells', 'holidays', 'well', 'better',
+                                    'holiday', 'baby', 'name', 'city', 'also', 'us', 'read', 'go', 'j', 'ratemds',
+                                    'ratemds', 'doctorfind', 'image', 'style', 'give', 'side', 'may', 'someone',
+                                    'told', 'said', 'doctors', 'top', 'people', 'cells', 'baby', 'name', 'city',
+                                    'also', 'us', 'read', 'go', 'j', 'ratemds', 'day', 'make', 'know', 'many', 'like',
+                                    'help', 'advertisement', 'ratemds', 'doctorfind', 'epoch'])
+            stop_words = set(stopwords.words('english')) | custom_stopwords
+            tokens = [word for word in tokens if word.isalpha() and word not in stop_words]
+
+            # Calculate term frequency
+            term_freq = Counter(tokens)
+
+            # Calculate maximum term frequency to normalize scores
+            max_freq = max(term_freq.values())
+
+            # Calculate relevance score for each term
+            relevance_scores = {term: tf / max_freq for term, tf in term_freq.items()}
+
+            # Sort terms by relevance score
+            sorted_terms = sorted(relevance_scores.items(), key=lambda x: x[1], reverse=True)
+
+            print(sorted_terms[:10])  # Return top 10 relevant keywords
+        else:
+            print(f"Failed to fetch URL: {url}")
+            return None
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
+
+
+extract_keywords_from_url("https://www.cancer.gov/news-events/cancer-currents-blog/2023/tarlatamab-previously-treated-sclc")
