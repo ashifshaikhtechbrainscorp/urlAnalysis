@@ -73,7 +73,7 @@ def extract_keywords_from_url(url):
 
             # Remove stopwords and non-alphabetic tokens
             custom_stopwords = set(['people', 'said','help','image', 'style', 'give', 'side', 'may','someone', 'told',
-            'doctors', 'top', 'people', 'cells','holidays','well','holiday','baby','name', 'city','also', 'us','read','go','j','ratemds',
+            'doctors', 'top', 'people', 'cells','holidays','well','better','holiday','baby','name', 'city','also', 'us','read','go','j','ratemds',
             'ratemds','doctorfind','image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said',
         'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
         'day','make','know','many','like','help','advertisement','ratemds','doctorfind','epoch'])
