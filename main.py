@@ -54,6 +54,59 @@ def get_drugs_for_disease(disease):
         print("Error:", response.status_code)
         return None
 
+related_terms = {
+    'blood sugar': ['diabetes'],
+    'heart disease': ['cardiovascular', 'cholesterol'],
+    'weight loss': ['fitness', 'diet', 'exercise'],
+    # we will add more related terms and their associated strong keywords as needed : AS
+}
+
+def extract_strong_keywords_and_scores(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            text = soup.get_text()
+
+            # Use SpaCy for noun chunk extraction
+            doc = nlp(text)
+            noun_chunks = [chunk.text.lower() for chunk in doc.noun_chunks]
+
+            # Combine noun chunks into the text
+            text += " ".join(noun_chunks)
+
+            tokens = word_tokenize(text)
+            tokens = [word.lower() for word in tokens]
+            custom_stopwords = set(['people', 'said', 'help', 'image', 'mm','hg','cdc','ra','years','style', 'give', 'side', 'may', 'someone',
+                                    'told', 'doctors', 'top', 'people', 'cells', 'holidays', 'well', 'better',
+                                    'holiday', 'baby', 'name', 'city', 'also', 'us', 'read', 'go', 'j', 'ratemds',
+                                    'ratemds', 'doctorfind', 'image', 'style', 'give', 'side', 'may', 'someone',
+                                    'told', 'said', 'doctors', 'top', 'people', 'cells', 'baby', 'name', 'city',
+                                    'also', 'us', 'read', 'go', 'j', 'ratemds', 'day', 'make', 'know', 'many', 'like',
+                                    'help', 'advertisement', 'ratemds', 'doctorfind', 'epoch'])
+            stop_words = set(stopwords.words('english')) | custom_stopwords
+            tokens = [word for word in tokens if word.isalpha() and word not in stop_words]
+            term_freq = Counter(tokens)
+            max_freq = max(term_freq.values())
+            relevance_scores = {term: tf / max_freq for term, tf in term_freq.items()}
+            sorted_terms = sorted(relevance_scores.items(), key=lambda x: x[1], reverse=True)
+
+            # Additional part to extract strong keywords based on related terms
+            strong_keywords = set()
+            for term, strong_terms in related_terms.items():
+                if term in text:
+                    strong_keywords.update(strong_terms)
+
+            # Return relevant keywords along with their scores and strong keywords
+            return sorted_terms, strong_keywords
+
+        else:
+            print(f"Failed to fetch URL: {url}")
+            return None, None
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None, None
+
 def extract_keywords_from_url(url):
     try:
         # Fetch the webpage content
@@ -72,7 +125,7 @@ def extract_keywords_from_url(url):
             tokens = [word.lower() for word in tokens]
 
             # Remove stopwords and non-alphabetic tokens
-            custom_stopwords = set(['people', 'said','help','image', 'style', 'give', 'side', 'may','someone', 'told',
+            custom_stopwords = set(['people', 'said','mm','hg','cdc','help','ra','year','image', 'style', 'give', 'side', 'may','someone', 'told',
             'doctors', 'top', 'people', 'cells','holidays','well','better','holiday','baby','name', 'city','also', 'us','read','go','j','ratemds',
             'ratemds','doctorfind','image', 'style', 'give', 'side', 'may', 'someone', 'told', 'said',
         'doctors', 'top', 'people', 'cells', 'baby','name', 'city','also', 'us','read','go','j','ratemds',
@@ -176,16 +229,39 @@ def find_specific_words_and_write_to_csv(column_values):
 
             csv_filename = 'scrapped_text' + datetime.now().strftime("%Y%m%d") + '.csv'
             keywords1 = extract_keywords_from_url(url)
+
+            relevant_keywords, strong_keywords = extract_strong_keywords_and_scores(url)
+            if relevant_keywords is not None and strong_keywords is not None:
+                # print("Top 10 relevant keywords:")
+                rel_kw_2 = (relevant_keywords[:10])
+
+                # print("\nStrong keywords based on related terms:")
+                # (strong_keywords)
+
+
             with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
                 csv_writer = csv.writer(csvfile)
                 # Check if the file is empty
                 if csvfile.tell() == 0:
-                    csv_writer.writerow(['Timestamp', 'URL', 'Extracted Text', 'specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny','Drugs_cN'])
-                csv_writer.writerow([timestamp, url, text, spec_words, keywords1, list(categories), list(drugs),json_result])
+                    csv_writer.writerow(['Timestamp', 'URL', 'specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny','Drugs_cN','Strong_KW_ifAny','Relevant_KW3']) #related KW and related categories to be added
+                csv_writer.writerow([timestamp, url, spec_words, keywords1, list(categories), list(drugs),json_result,strong_keywords,relevant_keywords])
 
+            csv_file = csv_filename
+            json_file = 'data.json'
+            csv_to_json(csv_file,json_file)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None
+
+def csv_to_json(csv_file, json_file):
+    # Read CSV file and convert it to a list of dictionaries
+    with open(csv_file, 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        data = list(reader)
+
+    # Write the data to a JSON file
+    with open(json_file, 'w', encoding='utf-8') as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
 
 
 # CSV file path made for URL list
