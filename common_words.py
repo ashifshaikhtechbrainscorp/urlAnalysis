@@ -13,12 +13,12 @@ def moreExcludedWords():
             'help', 'advertisement', 'ratemds', 'doctorfind', 'epoch']
 
 
-from nltk.corpus import wordnet
+# from nltk.corpus import wordnet
 
-word_to_find_synonyms_for = "diabetes"
-synonyms = set()
-for synset in wordnet.synsets(word_to_find_synonyms_for):
-    synonyms.update(synset.lemma_names())
+# word_to_find_synonyms_for = "diabetes"
+# synonyms = set()
+# for synset in wordnet.synsets(word_to_find_synonyms_for):
+#     synonyms.update(synset.lemma_names())
 
-print(f"Synonyms for '{word_to_find_synonyms_for}': {', '.join(synonyms)}")
+# print(f"Synonyms for '{word_to_find_synonyms_for}': {', '.join(synonyms)}")
 

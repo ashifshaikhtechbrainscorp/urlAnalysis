@@ -70,3 +70,6 @@ def get_therapuetic_diseases(data_set):
                     therapuetic_data.append(item)
     
     return therapuetic_data
+
+
+print(get_therapuetic_diseases(['lung','cancer','diabetes']))

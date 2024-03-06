@@ -168,87 +168,93 @@ def find_specific_words_and_write_to_csv(column_values):
             count = count + 1
             url = value
 
-        # Send a GET request to the URL
-            response = requests.get(url, verify=False)
-            if response.status_code != 200:
-                continue
+            if(count > -1):
 
-        # Parse the HTML content of the page
-            soup = BeautifulSoup(response.text, 'html.parser')
-            more_words_to_be_filtered = cw.excludedWords()
+            # Send a GET request to the URL
+                response = requests.get(url, verify=False)
+                if response.status_code != 200:
+                    continue
 
-            text = soup.get_text()
-            text = re.sub(r'\s{2,}', ' ', text)
-            text = ' '.join(text.split())
+            # Parse the HTML content of the page
+                soup = BeautifulSoup(response.text, 'html.parser')
+                more_words_to_be_filtered = cw.excludedWords()
 
-            words = word_tokenize(text)
-        # words_to_skipped = ['Bad request','JavaScript']
-            stop_words = set(stopwords.words('english'))
+                text = soup.get_text()
+                text = re.sub(r'\s{2,}', ' ', text)
+                text = ' '.join(text.split())
 
-            filtered_words1 = [word.lower() for word in words if word.isalpha() and word.lower() not in stop_words]
+                words = word_tokenize(text)
+            # words_to_skipped = ['Bad request','JavaScript']
+                stop_words = set(stopwords.words('english'))
 
-            filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in more_words_to_be_filtered]
+                filtered_words1 = [word.lower() for word in words if word.isalpha() and word.lower() not in stop_words]
 
-            lemmatizer = WordNetLemmatizer()
-            filtered_words = [lemmatizer.lemmatize(word) for word in filtered_words]
+                filtered_words = [word.lower() for word in filtered_words1 if word.isalpha() and word.lower() not in more_words_to_be_filtered]
 
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                lemmatizer = WordNetLemmatizer()
+                filtered_words = [lemmatizer.lemmatize(word) for word in filtered_words]
 
-            fdist = FreqDist(filtered_words)
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Print the 10 most common words
-            print("10 Most Common Words (", count, "):")
-            spec_words = []
-            for word, frequency in fdist.most_common(10):
-                spec_words.append(word)
+                fdist = FreqDist(filtered_words)
 
-        # Use spaCy for part-of-speech tagging
-            doc = nlp(text)
-            nouns = [token.text for token in doc if token.pos_ in ['NOUN', 'PROPN']]
-            diseases = ['cancer','heart','obesity','kidney','arteritis','lung','arthritis','tumor','diabetes','fibromyalgia','stress']
-        # Assign categories based on identified nouns
-            drugs=[]
+            # Print the 10 most common words
+                print("10 Most Common Words (", count, "):")
+                spec_words = []
+                spec_words_fifty = []
+                for word, frequency in fdist.most_common(10):
+                    spec_words.append(word)
 
-            categories = set()
-            for word1 in spec_words:
-                if word1 in diseases:
-                    drugs = get_drugs_for_disease(word1)
+                for word, frequency in fdist.most_common(50):
+                    spec_words_fifty.append(word)
 
-            drug_list = drugs
-            result_dict = Drugs.predict_drug_names(drug_list)
+            # Use spaCy for part-of-speech tagging
+                doc = nlp(text)
+                nouns = [token.text for token in doc if token.pos_ in ['NOUN', 'PROPN']]
+                diseases = ['cancer','heart','obesity','kidney','arteritis','lung','arthritis','tumor','diabetes','fibromyalgia','stress']
+            # Assign categories based on identified nouns
+                drugs=[]
 
-            json_result = json.dumps(result_dict)
+                categories = set()
+                for word1 in spec_words:
+                    if word1 in diseases:
+                        drugs = get_drugs_for_disease(word1)
 
-            for noun in nouns:
-                if 'disease' in noun:
-                    categories.add('Health')
-                elif 'technology' in noun:
-                    categories.add('Technology')
-                else:
-                    categories.add('Other')
+                drug_list = drugs
+                result_dict = Drugs.predict_drug_names(drug_list)
 
-            csv_filename = 'scrapped_text' + datetime.now().strftime("%Y%m%d") + '.csv'
-            keywords1 = extract_keywords_from_url(url)
+                json_result = json.dumps(result_dict)
 
-            relevant_keywords, strong_keywords = extract_strong_keywords_and_scores(url)
-            if relevant_keywords is not None and strong_keywords is not None:
-                # print("Top 10 relevant keywords:")
-                rel_kw_2 = (relevant_keywords[:10])
+                for noun in nouns:
+                    if 'disease' in noun:
+                        categories.add('Health')
+                    elif 'technology' in noun:
+                        categories.add('Technology')
+                    else:
+                        categories.add('Other')
 
-                # print("\nStrong keywords based on related terms:")
-                # (strong_keywords)
+                csv_filename = 'scrapped_text' + datetime.now().strftime("%Y%m%d") + '.csv'
+                keywords1 = extract_keywords_from_url(url)
+
+                relevant_keywords, strong_keywords = extract_strong_keywords_and_scores(url)
+                if relevant_keywords is not None and strong_keywords is not None:
+                    # print("Top 10 relevant keywords:")
+                    rel_kw_2 = (relevant_keywords[:10])
+
+                    # print("\nStrong keywords based on related terms:")
+                    # (strong_keywords)
 
 
-            with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
-                csv_writer = csv.writer(csvfile)
-                # Check if the file is empty
-                if csvfile.tell() == 0:
-                    csv_writer.writerow(['Timestamp', 'URL', 'specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny','Drugs_cN','Strong_KW_ifAny','Relevant_KW3']) #related KW and related categories to be added
-                csv_writer.writerow([timestamp, url, spec_words, keywords1, list(categories), list(drugs),json_result,strong_keywords,relevant_keywords])
+                with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
+                    csv_writer = csv.writer(csvfile)
+                    # Check if the file is empty
+                    if csvfile.tell() == 0:
+                        csv_writer.writerow(['Timestamp', 'URL', 'specific_words', '50 specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny','Drugs_cN','Strong_KW_ifAny','Relevant_KW3']) #related KW and related categories to be added
+                    csv_writer.writerow([timestamp, url, spec_words, spec_words_fifty, keywords1, list(categories), list(drugs),json_result,strong_keywords,relevant_keywords])
 
-            csv_file = csv_filename
-            json_file = 'data.json'
-            csv_to_json(csv_file,json_file)
+                csv_file = csv_filename
+                json_file = 'data.json'
+                csv_to_json(csv_file,json_file)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None
@@ -265,7 +271,7 @@ def csv_to_json(csv_file, json_file):
 
 
 # CSV file path made for URL list
-csv_file = 'urlAnalysis3.csv'
+csv_file = 'urlAnalysis3cp.csv'
 column_name = 'URL'
 df = pd.read_csv(csv_file)
 column_values = df[column_name].tolist()
