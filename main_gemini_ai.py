@@ -22,6 +22,7 @@ import spacy
 from nltk.stem import WordNetLemmatizer
 from collections import Counter
 import Drugs
+import gemini_ai as geai
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -151,7 +152,6 @@ def extract_keywords_from_url(url):
         return None
 
 def find_specific_words_and_write_to_csv(column_values):
-
     try:
         count = 0
         for value in column_values:
@@ -190,20 +190,20 @@ def find_specific_words_and_write_to_csv(column_values):
 
             # Print the 10 most common words
                 print("10 Most Common Words (", count, "):")
-                spec_words = []
+                extracted_keywords = []
                 for word, frequency in fdist.most_common(10):
-                    spec_words.append(word)
+                    extracted_keywords.append(word)
 
             # Use spaCy for part-of-speech tagging
                 doc = nlp(text)
                 nouns = [token.text for token in doc if token.pos_ in ['NOUN', 'PROPN']]
-                diseases = ['cancer', 'heart', 'obesity', 'kidney', 'arteritis', 'lung', 'arthritis', 'tumor', 'diabetes',
-                            'fibromyalgia','stress']
+                diseases = ['cancer', 'heart', 'obesity', 'kidney', 'arteritis', 'lung', 'arthritis', 'tumor',
+                            'diabetes', 'fibromyalgia', 'stress']
             # Assign categories based on identified nouns
                 drugs=[]
 
                 categories = set()
-                for word1 in spec_words:
+                for word1 in extracted_keywords:
                     if word1 in diseases:
                         drugs = get_drugs_for_disease(word1)
 
@@ -230,21 +230,27 @@ def find_specific_words_and_write_to_csv(column_values):
 
                     # print("\nStrong keywords based on related terms:")
                     # (strong_keywords)
-
-
+                diseasesJson = []
                 with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
                     csv_writer = csv.writer(csvfile)
                     # Check if the file is empty
                     if csvfile.tell() == 0:
                         csv_writer.writerow(['Timestamp', 'URL', 'specific_words', 'specified_kw_set2', 'Categories',
-                                             'Drugs_ifAny', 'Drugs_cN', 'Strong_KW_ifAny', 'Relevant_KW3'])
-                        #related KW and related categories to be added
-                    csv_writer.writerow([timestamp, url, spec_words, keywords1, list(categories), list(drugs),
-                                         json_result, strong_keywords, relevant_keywords])
+                                             'Drugs_ifAny', 'Drugs_cN', 'Strong_KW_ifAny', 'Relevant_KW3', 'Related Keywords']) #related KW and related categories to be added
+                    csv_writer.writerow([timestamp, url, extracted_keywords, keywords1, list(categories), list(drugs),
+                                         json_result, strong_keywords, relevant_keywords, geai.get_related_keywords(extracted_keywords)])
 
+                    diseasesJson.append({
+                        'url': url,
+                        'extracted_keywords': extracted_keywords,
+                        'categories': list(categories),
+                        'related_keywords': geai.get_related_keywords(extracted_keywords)
+                    })
                 csv_file = csv_filename
                 json_file = 'data.json'
-                csv_to_json(csv_file, json_file)
+                csv_to_json(csv_file,json_file)
+
+                print(diseasesJson)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None
@@ -261,7 +267,7 @@ def csv_to_json(csv_file, json_file):
 
 
 # CSV file path made for URL list
-csv_file = 'urlAnalysis3.csv'
+csv_file = 'urlAnalysis31.csv'
 column_name = 'URL'
 df = pd.read_csv(csv_file)
 column_values = df[column_name].tolist()
