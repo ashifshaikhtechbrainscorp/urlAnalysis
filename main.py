@@ -201,12 +201,8 @@ def find_specific_words_and_write_to_csv(column_values):
             # Print the 10 most common words
                 print("10 Most Common Words (", count, "):")
                 spec_words = []
-                spec_words_fifty = []
                 for word, frequency in fdist.most_common(10):
                     spec_words.append(word)
-
-                for word, frequency in fdist.most_common(50):
-                    spec_words_fifty.append(word)
 
             # Use spaCy for part-of-speech tagging
                 doc = nlp(text)
@@ -249,8 +245,8 @@ def find_specific_words_and_write_to_csv(column_values):
                     csv_writer = csv.writer(csvfile)
                     # Check if the file is empty
                     if csvfile.tell() == 0:
-                        csv_writer.writerow(['Timestamp', 'URL', 'specific_words', '50 specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny','Drugs_cN','Strong_KW_ifAny','Relevant_KW3']) #related KW and related categories to be added
-                    csv_writer.writerow([timestamp, url, spec_words, spec_words_fifty, keywords1, list(categories), list(drugs),json_result,strong_keywords,relevant_keywords])
+                        csv_writer.writerow(['Timestamp', 'URL', 'specific_words', 'specified_kw_set2', 'Categories', 'Drugs_ifAny','Drugs_cN','Strong_KW_ifAny','Relevant_KW3']) #related KW and related categories to be added
+                    csv_writer.writerow([timestamp, url, spec_words, keywords1, list(categories), list(drugs),json_result,strong_keywords,relevant_keywords])
 
                 csv_file = csv_filename
                 json_file = 'data.json'
@@ -271,7 +267,7 @@ def csv_to_json(csv_file, json_file):
 
 
 # CSV file path made for URL list
-csv_file = 'urlAnalysis3cp.csv'
+csv_file = 'urlAnalysis3.csv'
 column_name = 'URL'
 df = pd.read_csv(csv_file)
 column_values = df[column_name].tolist()
