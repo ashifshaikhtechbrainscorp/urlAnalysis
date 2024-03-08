@@ -22,6 +22,8 @@ import spacy
 from nltk.stem import WordNetLemmatizer
 from collections import Counter
 import Drugs
+import therapuetic_diseases
+import OpenAI as OAI
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -92,7 +94,7 @@ def extract_strong_keywords_and_scores(url):
                     strong_keywords.update(strong_terms)
 
             # Return relevant keywords along with their scores and strong keywords
-            return sorted_terms, strong_keywords
+            return sorted_terms[:10], strong_keywords
 
         else:
             print(f"Failed to fetch URL: {url}")
@@ -203,9 +205,11 @@ def find_specific_words_and_write_to_csv(column_values):
                 drugs=[]
 
                 categories = set()
+                condition_list = []
                 for word1 in spec_words:
                     if word1 in diseases:
                         drugs = get_drugs_for_disease(word1)
+                        condition_list.append(word1)
 
                 drug_list = drugs
                 result_dict = Drugs.predict_drug_names(drug_list)
@@ -230,17 +234,21 @@ def find_specific_words_and_write_to_csv(column_values):
 
                     # print("\nStrong keywords based on related terms:")
                     # (strong_keywords)
+                first_words = [word for word, _ in relevant_keywords]
+
+                # print(first_words)
+                # print(relevant_keywords)
+                related_kw = OAI.get_ai_keywords(first_words)
+                related_diseases = OAI.get_ai_diseases(first_words)
 
 
                 with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
                     csv_writer = csv.writer(csvfile)
                     # Check if the file is empty
                     if csvfile.tell() == 0:
-                        csv_writer.writerow(['Timestamp', 'URL', 'specific_words', 'specified_kw_set2', 'Categories',
-                                             'Drugs_ifAny', 'Drugs_cN', 'Strong_KW_ifAny', 'Relevant_KW3'])
+                        csv_writer.writerow(['Timestamp', 'URL', 'Relevant_KW_with_Normalised_Scr','Related_KW','Category','Related_category','Drugs_Class', 'Drugs_Name', 'Related_KW_ifAny'])
                         #related KW and related categories to be added
-                    csv_writer.writerow([timestamp, url, spec_words, keywords1, list(categories), list(drugs),
-                                         json_result, strong_keywords, relevant_keywords])
+                    csv_writer.writerow([timestamp, url,relevant_keywords,list(related_kw),condition_list,list(related_diseases), list(drugs),json_result, strong_keywords ])
 
                 csv_file = csv_filename
                 json_file = 'data.json'
