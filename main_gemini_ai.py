@@ -23,6 +23,7 @@ from nltk.stem import WordNetLemmatizer
 from collections import Counter
 import Drugs
 import gemini_ai as geai
+import therapuetic_diseases as therepd
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -154,6 +155,7 @@ def extract_keywords_from_url(url):
 def find_specific_words_and_write_to_csv(column_values):
     try:
         count = 0
+        diseasesJson = []
         for value in column_values:
             count = count + 1
             url = value
@@ -230,7 +232,6 @@ def find_specific_words_and_write_to_csv(column_values):
 
                     # print("\nStrong keywords based on related terms:")
                     # (strong_keywords)
-                diseasesJson = []
                 with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
                     csv_writer = csv.writer(csvfile)
                     # Check if the file is empty
@@ -238,19 +239,34 @@ def find_specific_words_and_write_to_csv(column_values):
                         csv_writer.writerow(['Timestamp', 'URL', 'specific_words', 'specified_kw_set2', 'Categories',
                                              'Drugs_ifAny', 'Drugs_cN', 'Strong_KW_ifAny', 'Relevant_KW3', 'Related Keywords']) #related KW and related categories to be added
                     csv_writer.writerow([timestamp, url, extracted_keywords, keywords1, list(categories), list(drugs),
-                                         json_result, strong_keywords, relevant_keywords, geai.get_related_keywords(extracted_keywords)])
+                                         json_result, strong_keywords, relevant_keywords, geai.get_related_diseases(extracted_keywords)])
+                    
+                    theraputic_diseases = therepd.get_therapuetic_diseases(extracted_keywords)
+                    related_diseases = []
+                    if len(theraputic_diseases) > 0:
+                        for diseases in theraputic_diseases:
+                            tdiseases = geai.get_related_diseases(diseases['label'])
+                            tdrugs = geai.get_related_drugs(diseases['label'])
+                            related_diseases.append({
+                                diseases['label']: {
+                                    'related_diseases': tdiseases,
+                                    'related_drugs': tdrugs,
+                                }
+                            })
 
+                    print(related_diseases)
+                    
                     diseasesJson.append({
                         'url': url,
                         'extracted_keywords': extracted_keywords,
                         'categories': list(categories),
-                        'related_keywords': geai.get_related_keywords(extracted_keywords)
+                        'dieseases': related_diseases
                     })
                 csv_file = csv_filename
                 json_file = 'data.json'
                 csv_to_json(csv_file,json_file)
-
-                print(diseasesJson)
+        
+        print(diseasesJson)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None

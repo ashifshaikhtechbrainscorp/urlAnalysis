@@ -26,19 +26,12 @@ genai.configure(api_key='AIzaSyAj3lnUVGrh9kJf5zjCHLsau0oGTzVPpG0')
 # for m in genai.list_models():
 #   if 'generateContent' in m.supported_generation_methods:
 #     print(m.name)
-def get_related_keywords(item_set):
+def get_related_drugs(item_set):
     model = genai.GenerativeModel('gemini-pro')
-    # response = model.generate_content(f"""suggest some keywords or therauputic diseases or
-    # dieseases strongly related to the following keywords below, the suggested keywords should be 1-2
-    # words only and should have strong correlation with the keywords. The keywords are
-    # {item_set}
-    # Please suggest keywords which are in strong relation to given keywords and occur mostly with these keywords
-    # or occurs in context of these keywords.""")
-    #
     response = model.generate_content(f"""
     Give me indian drug name related to these keywords: {item_set}""")
 
-    response_text = response.text.replace('* ', '').replace('\n', ',').replace('*','').replace('    - ', '').replace('- ', '')
+    response_text = response.text.replace('* ', '').replace('\n', ',').replace('*','').replace('    - ', '').replace('- ', '').replace('    ', '')
     
     results = []
     for text in response_text.split(','):
@@ -46,3 +39,22 @@ def get_related_keywords(item_set):
           results.append(text)
 
     return results
+
+def get_related_diseases(item_set):
+    model = genai.GenerativeModel('gemini-pro')
+    response = model.generate_content(f"""suggest some keywords or therauputic diseases or
+    dieseases strongly related to the following keywords below, the suggested keywords should be 1-2
+    words only and should have strong correlation with the keywords. The keywords are {item_set}
+    Please suggest keywords which are in strong relation to given keywords and occur mostly with these keywords
+    or occurs in context of these keywords.""")
+    
+    response_text = response.text.replace('* ', '').replace('\n', ',').replace('*','').replace('    - ', '').replace('- ', '').replace('    ', '')
+    
+    results = []
+    for text in response_text.split(','):
+       if text != '':
+          results.append(text)
+
+    return results
+
+print(get_related_diseases('Greate taste less waste'))
