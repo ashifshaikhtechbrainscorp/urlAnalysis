@@ -1,6 +1,6 @@
 import json
 
-def get_therapuetic_diseases(data_set):
+def get_therapuetic_diseases(data_set, type):
     item_set = list(map(lambda x: x.lower(), data_set))
 
     # Open the JSON file
@@ -69,6 +69,20 @@ def get_therapuetic_diseases(data_set):
                 if(count > 0 and diesease_length == count):
                     therapuetic_data.append(item)
     
+    therapuetic_label = []
+    if type == 'label':
+        for data in therapuetic_data:
+            therapuetic_label.append(data['label'])
+
+        therapuetic_data = therapuetic_label
+
+    if type == 'key':
+        for data in therapuetic_data:
+            therapuetic_label.append(data['key'])
+
+        therapuetic_data = therapuetic_label
+
     return therapuetic_data
 
-print(get_therapuetic_diseases(['blood', 'pressure', 'colon', 'kidney', 'liver', 'heart', 'attack', 'ovarian', 'prostate', 'skin', 'blood', 'brain', 'general']))
+print(get_therapuetic_diseases(['blood', 'pressure', 'colon', 'kidney', 'liver', 'heart', 'attack', 'ovarian',
+                                'prostate', 'skin', 'blood', 'brain', 'general'], 'label'))
