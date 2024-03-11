@@ -52,4 +52,7 @@ def get_ai_diseases(provided_keywords):
 # response_ai = get_ai_diseases(provided_keywords)
 # print(response_ai)
 
+provided_keywords = ['diabetes']
+response_ai = get_ai_diseases(provided_keywords)
+print(response_ai)
 

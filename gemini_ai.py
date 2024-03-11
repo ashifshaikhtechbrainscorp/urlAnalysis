@@ -42,8 +42,8 @@ def get_related_drugs(item_set):
 
 def get_related_diseases(item_set):
     model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(f"""suggest some keywords or therauputic diseases or
-    dieseases strongly related to the following keywords below, the suggested keywords should be 1-2
+    response = model.generate_content(f"""suggest some keywords or therauputic diseases or diseases monitoring or
+    dieseases strongly related to the following keywords below, the suggested keywords should be 10-12
     words only and should have strong correlation with the keywords. The keywords are {item_set}
     Please suggest keywords which are in strong relation to given keywords and occur mostly with these keywords
     or occurs in context of these keywords.""")
@@ -57,4 +57,4 @@ def get_related_diseases(item_set):
 
     return results
 
-print(get_related_diseases('Greate taste less waste'))
+print(get_related_diseases('Diabetes'))
